@@ -41,27 +41,24 @@ object MLModule {
     }
     
     /**
-     * Provides Image Analyzer
-     * Uncomment when ImageAnalyzer is implemented
+     * Provides Image Labeler Options
      */
-    // @Provides
-    // @Singleton
-    // fun provideImageAnalyzer(
-    //     @ApplicationContext context: Context
-    // ): ImageAnalyzer {
-    //     return ImageAnalyzer(context)
-    // }
+    @Provides
+    @Singleton
+    fun provideImageLabelerOptions(): com.google.mlkit.vision.label.ImageLabelerOptions {
+        return com.google.mlkit.vision.label.ImageLabelerOptions.Builder()
+            .setConfidenceThreshold(0.5f)
+            .build()
+    }
     
     /**
-     * Provides Pose Estimator
-     * Uncomment when PoseEstimator is implemented
+     * Provides ML Kit Image Labeler
      */
-    // @Provides
-    // @Singleton
-    // fun providePoseEstimator(
-    //     poseDetector: PoseDetector,
-    //     @ApplicationContext context: Context
-    // ): PoseEstimator {
-    //     return PoseEstimator(poseDetector, context)
-    // }
+    @Provides
+    @Singleton
+    fun provideImageLabeler(
+        options: com.google.mlkit.vision.label.ImageLabelerOptions
+    ): com.google.mlkit.vision.label.ImageLabeler {
+        return com.google.mlkit.vision.label.ImageLabeling.getClient(options)
+    }
 }

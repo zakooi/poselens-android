@@ -20,39 +20,40 @@ object DatabaseModule {
     
     /**
      * Provides Room Database
-     * Uncomment when AppDatabase is implemented
      */
-    // @Provides
-    // @Singleton
-    // fun provideAppDatabase(
-    //     @ApplicationContext context: Context
-    // ): AppDatabase {
-    //     return Room.databaseBuilder(
-    //         context,
-    //         AppDatabase::class.java,
-    //         DATABASE_NAME
-    //     )
-    //         .fallbackToDestructiveMigration()
-    //         .build()
-    // }
+    @Provides
+    @Singleton
+    fun provideAppDatabase(
+        @ApplicationContext context: Context
+    ): com.example.poselens.data.local.database.AppDatabase {
+        return Room.databaseBuilder(
+            context,
+            com.example.poselens.data.local.database.AppDatabase::class.java,
+            DATABASE_NAME
+        )
+            .fallbackToDestructiveMigration()
+            .build()
+    }
     
     /**
-     * Provides Pose DAO
-     * Uncomment when PoseDao is implemented
+     * Provides Pose History DAO
      */
-    // @Provides
-    // @Singleton
-    // fun providePoseDao(database: AppDatabase): PoseDao {
-    //     return database.poseDao()
-    // }
+    @Provides
+    @Singleton
+    fun providePoseHistoryDao(
+        database: com.example.poselens.data.local.database.AppDatabase
+    ): com.example.poselens.data.local.dao.PoseHistoryDao {
+        return database.poseHistoryDao()
+    }
     
     /**
      * Provides Template DAO
-     * Uncomment when TemplateDao is implemented
      */
-    // @Provides
-    // @Singleton
-    // fun provideTemplateDao(database: AppDatabase): TemplateDao {
-    //     return database.templateDao()
-    // }
+    @Provides
+    @Singleton
+    fun providePoseTemplateDao(
+        database: com.example.poselens.data.local.database.AppDatabase
+    ): com.example.poselens.data.local.dao.PoseTemplateDao {
+        return database.poseTemplateDao()
+    }
 }
