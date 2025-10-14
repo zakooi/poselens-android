@@ -6,7 +6,7 @@ $Green = 'Green'
 $Yellow = 'Yellow'
 $Red = 'Red'
 
-Write-Host "🚀 PoseLens - GitHub Push Setup" -ForegroundColor $Green
+Write-Host "PoseLens - GitHub Push Setup" -ForegroundColor $Green
 Write-Host "=================================" -ForegroundColor $Green
 Write-Host ""
 
@@ -14,7 +14,7 @@ Write-Host ""
 $username = Read-Host "Enter your GitHub username"
 
 if ([string]::IsNullOrWhiteSpace($username)) {
-    Write-Host "❌ Username cannot be empty!" -ForegroundColor $Red
+    Write-Host "ERROR: Username cannot be empty!" -ForegroundColor $Red
     exit 1
 }
 
@@ -22,7 +22,7 @@ if ([string]::IsNullOrWhiteSpace($username)) {
 $repoName = "poselens-android"
 
 Write-Host ""
-Write-Host "📋 Repository Info:" -ForegroundColor $Yellow
+Write-Host "Repository Info:" -ForegroundColor $Yellow
 Write-Host "   Username: $username"
 Write-Host "   Repository: $repoName"
 Write-Host "   URL: https://github.com/$username/$repoName"
@@ -32,7 +32,7 @@ Write-Host ""
 $confirm = Read-Host "Have you created the repository on GitHub? (y/n)"
 if ($confirm -ne 'y' -and $confirm -ne 'Y') {
     Write-Host ""
-    Write-Host "⚠️  Please create the repository first:" -ForegroundColor $Yellow
+    Write-Host "WARNING: Please create the repository first:" -ForegroundColor $Yellow
     Write-Host "   1. Go to https://github.com/new"
     Write-Host "   2. Repository name: $repoName"
     Write-Host "   3. Make it Public or Private"
@@ -44,23 +44,23 @@ if ($confirm -ne 'y' -and $confirm -ne 'Y') {
 }
 
 Write-Host ""
-Write-Host "🔗 Connecting to GitHub..." -ForegroundColor $Green
+Write-Host "Connecting to GitHub..." -ForegroundColor $Green
 
 # Add remote
 $remoteUrl = "https://github.com/$username/$repoName.git"
 git remote add origin $remoteUrl 2>$null
 
 if ($LASTEXITCODE -ne 0) {
-    Write-Host "⚠️  Remote 'origin' already exists. Updating URL..." -ForegroundColor $Yellow
+    Write-Host "WARNING: Remote 'origin' already exists. Updating URL..." -ForegroundColor $Yellow
     git remote set-url origin $remoteUrl
 }
 
 # Verify remote
-Write-Host "✅ Remote added:" -ForegroundColor $Green
+Write-Host "Remote added successfully:" -ForegroundColor $Green
 git remote -v
 
 Write-Host ""
-Write-Host "📤 Pushing to GitHub..." -ForegroundColor $Green
+Write-Host "Pushing to GitHub..." -ForegroundColor $Green
 
 # Rename branch to main
 git branch -M main
@@ -70,27 +70,27 @@ git push -u origin main
 
 if ($LASTEXITCODE -eq 0) {
     Write-Host ""
-    Write-Host "🎉 SUCCESS! Code pushed to GitHub!" -ForegroundColor $Green
+    Write-Host "SUCCESS! Code pushed to GitHub!" -ForegroundColor $Green
     Write-Host ""
-    Write-Host "🔗 View your repository at:" -ForegroundColor $Yellow
+    Write-Host "View your repository at:" -ForegroundColor $Yellow
     Write-Host "   https://github.com/$username/$repoName" -ForegroundColor $Green
     Write-Host ""
-    Write-Host "📝 Next steps:" -ForegroundColor $Yellow
+    Write-Host "Next steps:" -ForegroundColor $Yellow
     Write-Host "   1. Add repository description and topics"
     Write-Host "   2. Enable GitHub Actions (optional)"
     Write-Host "   3. Invite collaborators (if needed)"
-    Write-Host "   4. Start developing! 🚀"
+    Write-Host "   4. Start developing!"
 } else {
     Write-Host ""
-    Write-Host "❌ Push failed!" -ForegroundColor $Red
+    Write-Host "ERROR: Push failed!" -ForegroundColor $Red
     Write-Host ""
-    Write-Host "💡 Possible solutions:" -ForegroundColor $Yellow
+    Write-Host "Possible solutions:" -ForegroundColor $Yellow
     Write-Host "   1. Check your GitHub credentials"
     Write-Host "   2. Make sure you have access to the repository"
     Write-Host "   3. Try using SSH instead: git remote set-url origin git@github.com:$username/$repoName.git"
     Write-Host "   4. Create a Personal Access Token at: https://github.com/settings/tokens"
     Write-Host ""
-    Write-Host "📖 See GITHUB_PUSH_GUIDE.md for detailed instructions"
+    Write-Host "See GITHUB_PUSH_GUIDE.md for detailed instructions"
 }
 
 Write-Host ""
