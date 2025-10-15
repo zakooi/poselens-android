@@ -1,6 +1,9 @@
 package com.example.poselens.di
 
 import android.content.Context
+import com.google.mlkit.vision.label.ImageLabeler
+import com.google.mlkit.vision.label.ImageLabeling
+import com.google.mlkit.vision.label.defaults.ImageLabelerOptions
 import com.google.mlkit.vision.pose.PoseDetection
 import com.google.mlkit.vision.pose.PoseDetector
 import com.google.mlkit.vision.pose.defaults.PoseDetectorOptions
@@ -45,8 +48,8 @@ object MLModule {
      */
     @Provides
     @Singleton
-    fun provideImageLabelerOptions(): com.google.mlkit.vision.label.ImageLabelerOptions {
-        return com.google.mlkit.vision.label.ImageLabelerOptions.Builder()
+    fun provideImageLabelerOptions(): ImageLabelerOptions {
+        return ImageLabelerOptions.Builder()
             .setConfidenceThreshold(0.5f)
             .build()
     }
@@ -57,8 +60,8 @@ object MLModule {
     @Provides
     @Singleton
     fun provideImageLabeler(
-        options: com.google.mlkit.vision.label.ImageLabelerOptions
-    ): com.google.mlkit.vision.label.ImageLabeler {
-        return com.google.mlkit.vision.label.ImageLabeling.getClient(options)
+        options: ImageLabelerOptions
+    ): ImageLabeler {
+        return ImageLabeling.getClient(options)
     }
 }

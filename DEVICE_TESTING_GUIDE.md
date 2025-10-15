@@ -1,8 +1,14 @@
 # 📱 HƯỚNG DẪN TEST TRÊN THIẾT BỊ THẬT
 ## PoseLens Android - Device Testing Guide
 
-**Version:** 1.0.0  
-**Last Updated:** October 14, 2025
+**Version:** 1.0.1  
+**Last Updated:** October 15, 2025
+
+---
+
+## 📝 Changelog
+
+- 2025-10-15: Updated examples and commands to include Linux/macOS (bash) paths and replaced PowerShell-specific snippets; clarified quick-start path for this repo workspace.
 
 ---
 
@@ -28,13 +34,14 @@ Hướng dẫn này sẽ giúp bạn:
 ✅ Kết nối Internet (cho API testing)
 ```
 
-### Máy Tính:
+### Máy Tính / Development Host:
 ```
-✅ Windows 10/11
+✅ Linux (Ubuntu/Debian) or macOS or Windows 10/11
 ✅ Android Studio installed
-✅ USB cable tốt
+✅ USB cable tốt (không lỗi)
 ✅ Git installed
 ✅ JDK 17
+✅ adb in PATH (thường được cài cùng Android SDK)
 ```
 
 ---
@@ -43,17 +50,17 @@ Hướng dẫn này sẽ giúp bạn:
 
 ### Bước 1: Clone Repository
 
-Mở PowerShell hoặc Command Prompt:
+Mở terminal (bash/zsh) trên Linux hoặc macOS, hoặc PowerShell / CMD trên Windows. Ví dụ (Linux/macOS):
 
-```powershell
-# Di chuyển đến thư mục làm việc
-cd D:\ANDROIAPP
+```bash
+# Di chuyển đến thư mục làm việc (ví dụ thư mục workspace của dự án)
+cd ~/projects || cd /workspaces/poselens-android
 
 # Clone repository (nếu chưa có)
 git clone https://github.com/zakooi/poselens-android.git
 
-# Hoặc pull code mới nhất (nếu đã có)
-cd PoseLens
+# Hoặc nếu đã clone trước đó, vào thư mục và pull code mới nhất
+cd poselens-android
 git pull origin main
 ```
 
@@ -61,7 +68,7 @@ git pull origin main
 
 1. **Mở Android Studio**
 2. **File → Open**
-3. Chọn thư mục `D:\ANDROIAPP\PoseLens`
+3. Chọn thư mục `poselens-android` (hoặc đường dẫn nơi bạn clone repo, ví dụ `/workspaces/poselens-android`)
 4. Chờ Gradle sync xong (2-5 phút lần đầu)
 
 ### Bước 3: Kích Hoạt Developer Mode Trên Điện Thoại
@@ -378,8 +385,8 @@ Filters:
 # Xem tất cả logs
 adb logcat
 
-# Filter theo app
-adb logcat | Select-String "com.example.poselens"
+# Filter theo app (Linux/macOS)
+adb logcat | grep --line-buffered "com.example.poselens"
 
 # Filter theo tag
 adb logcat -s "PoseLens"
@@ -420,7 +427,7 @@ adb logcat -s "AndroidRuntime:E"
 **Check:**
 ```bash
 # List permissions
-adb shell dumpsys package com.example.poselens | Select-String "permission"
+adb shell dumpsys package com.example.poselens | grep "permission"
 ```
 
 **Fix:**
@@ -802,8 +809,8 @@ Settings → Developer Options → USB Debugging ON
 # 3. Connect phone via USB
 # Accept popup "Allow USB debugging" trên phone
 
-# 4. Build & Install
-cd D:\ANDROIAPP\PoseLens
+# 4. Build & Install (ở workspace này)
+cd /workspaces/poselens-android
 ./gradlew installDebug
 
 # 5. App sẽ tự động cài và mở!
