@@ -4,8 +4,12 @@ import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -19,8 +23,9 @@ import coil.compose.rememberAsyncImagePainter
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AnalyzeScreen(
-    imageUri: String?,
-    onBack: () -> Unit,
+    imageUri: Uri?,
+    onNavigateBack: () -> Unit,
+    onEditClick: ((Uri) -> Unit)? = null,
     viewModel: AnalyzeViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -35,7 +40,17 @@ fun AnalyzeScreen(
             TopAppBar(
                 title = { Text("Analyze") },
                 navigationIcon = {
-                    IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, contentDescription = "Back") }
+                    IconButton(onClick = onNavigateBack) { 
+                        Icon(Icons.Default.ArrowBack, contentDescription = "Back") 
+                    }
+                },
+                actions = {
+                    // Edit button
+                    if (imageUri != null && onEditClick != null) {
+                        IconButton(onClick = { onEditClick(imageUri) }) {
+                            Icon(Icons.Default.Edit, contentDescription = "Edit")
+                        }
+                    }
                 }
             )
         }

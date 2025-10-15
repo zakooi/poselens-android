@@ -1,11 +1,15 @@
 package com.example.poselens.presentation.ui.navigation
 
+import android.net.Uri
 import androidx.compose.runtime.Composable
+import androidx.core.net.toUri
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.poselens.presentation.ui.screens.analyze.AnalyzeScreen
+import com.example.poselens.presentation.ui.screens.edit.EditScreen
 import com.example.poselens.presentation.ui.screens.home.HomeScreen
 import java.net.URLDecoder
 import java.net.URLEncoder
@@ -51,7 +55,7 @@ fun PoseLensNavigation() {
             )
         }
         
-        // Analyze Screen (placeholder for now)
+        // Analyze Screen
         composable(
             route = Screen.Analyze.route,
             arguments = listOf(
@@ -59,17 +63,26 @@ fun PoseLensNavigation() {
             )
         ) { backStackEntry ->
             val encodedUri = backStackEntry.arguments?.getString("imageUri")
-            val imageUri = URLDecoder.decode(encodedUri, StandardCharsets.UTF_8.toString())
+            val imageUri = encodedUri?.let { 
+                URLDecoder.decode(it, StandardCharsets.UTF_8.toString()).toUri()
+            }
             
-            // TODO: Implement AnalyzeScreen
-            HomeScreen(
-                onCameraClick = {},
-                onGalleryImageSelected = {},
-                onSettingsClick = {}
+            AnalyzeScreen(
+                imageUri = imageUri,
+                onNavigateBack = {
+                    navController.popBackStack()
+                },
+                onEditClick = { uri ->
+                    val encodedEditUri = URLEncoder.encode(
+                        uri.toString(),
+                        StandardCharsets.UTF_8.toString()
+                    )
+                    navController.navigate(Screen.Edit.createRoute(encodedEditUri))
+                }
             )
         }
         
-        // Edit Screen (placeholder for now)
+        // Edit Screen
         composable(
             route = Screen.Edit.route,
             arguments = listOf(
@@ -77,13 +90,15 @@ fun PoseLensNavigation() {
             )
         ) { backStackEntry ->
             val encodedUri = backStackEntry.arguments?.getString("imageUri")
-            val imageUri = URLDecoder.decode(encodedUri, StandardCharsets.UTF_8.toString())
+            val imageUri = encodedUri?.let { 
+                URLDecoder.decode(it, StandardCharsets.UTF_8.toString()).toUri()
+            }
             
-            // TODO: Implement EditScreen
-            HomeScreen(
-                onCameraClick = {},
-                onGalleryImageSelected = {},
-                onSettingsClick = {}
+            EditScreen(
+                imageUri = imageUri,
+                onNavigateBack = {
+                    navController.popBackStack()
+                }
             )
         }
         

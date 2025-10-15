@@ -1,5 +1,6 @@
 package com.example.poselens.presentation.ui.screens.analyze
 
+import android.net.Uri
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,7 +26,7 @@ class AnalyzeViewModel @Inject constructor(
 
     private val viewModelScope = CoroutineScope(Dispatchers.Main)
 
-    fun analyzeImage(imageUri: String) {
+    fun analyzeImage(imageUri: Uri) {
         _uiState.value = _uiState.value.copy(isLoading = true, error = null)
 
         // Scaffold: simulate calling use case
@@ -34,7 +35,7 @@ class AnalyzeViewModel @Inject constructor(
                 // TODO: call AnalyzeImageComprehensiveUseCase and map result to AnalyzeResult
                 // For scaffold, delay or emit sample data
                 val sample = AnalyzeResult(
-                    imageUri = imageUri,
+                    imageUri = imageUri.toString(),
                     poseAvailable = true,
                     suggestions = listOf("Raise chin slightly", "Square shoulders")
                 )
